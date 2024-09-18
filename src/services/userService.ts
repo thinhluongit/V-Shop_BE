@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import axios from "axios";
 import express, { Request, Response } from "express";
 import CryptoJS from "crypto-js";
+import { log } from "console";
 
 const prisma = new PrismaClient();
 const ZALO_APP_SECRET_KEY = process.env.SECRET_KEY;
@@ -65,7 +66,7 @@ export const getUserInfo = async (accessToken: string) => {
     console.log("Access Token is:" + accessToken);
 
     const data = response.data;
-    console.log("Data = " + data.toString());
+    console.log("Data = " + JSON.stringify(data));
 
     return data;
   } catch (error) {
