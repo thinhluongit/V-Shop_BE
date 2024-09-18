@@ -7,7 +7,7 @@ import {
   deleteUser,
   getUserInfo,
   getPhoneNumber,
-} from "@/controllers/userController";
+} from "../controllers/userController";
 
 const router = express.Router();
 
