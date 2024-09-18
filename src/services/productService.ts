@@ -3,12 +3,13 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const createProduct = (
-  name: string,
-  description: string | null,
-  price: number
+  title: string,
+  price: number,
+  sku: string,
+  thumbnail: string
 ) => {
   return prisma.product.create({
-    data: { name, description, price },
+    data: { title, price, sku, thumbnail },
   });
 };
 
@@ -24,13 +25,14 @@ export const getProduct = (id: string) => {
 
 export const updateProduct = (
   id: string,
-  name: string,
-  description: string | null,
-  price: number
+  title: string,
+  price: number,
+  sku: string,
+  thumbnail: string
 ) => {
   return prisma.product.update({
     where: { id },
-    data: { name, description, price },
+    data: { title, price, sku, thumbnail },
   });
 };
 
