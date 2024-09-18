@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import axios from "axios";
 import express, { Request, Response } from "express";
+import CryptoJS from "crypto-js";
 
 const prisma = new PrismaClient();
 const ZALO_APP_SECRET_KEY = process.env.SECRET_KEY;
@@ -42,16 +43,29 @@ export const deleteUser = (id: string) => {
 // https://developers.zalo.me/docs/social-api/tai-lieu/thong-tin-ten-anh-dai-dien
 export const getUserInfo = async (accessToken: string) => {
   const zaloInfoURL = "https://graph.zalo.me/v2.0/me?fields=id,name,picture";
+
+  const calculateHMacSHA256 = (
+    access_token: string,
+    secretKey: string
+  ): string => {
+    const hmac = CryptoJS.HmacSHA256(access_token, secretKey);
+    return hmac.toString(CryptoJS.enc.Hex);
+  };
+
   try {
     const response = await axios.get(zaloInfoURL, {
       headers: {
         access_token: accessToken,
+        appsecret_proof: calculateHMacSHA256(
+          accessToken,
+          ZALO_APP_SECRET_KEY as string
+        ),
       },
     });
     console.log("Access Token is:" + accessToken);
 
     const data = response.data;
-    console.log(data);
+    console.log("Data = " + data);
 
     return data;
   } catch (error) {
