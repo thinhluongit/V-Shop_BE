@@ -34,10 +34,19 @@ export const deleteUser = async (req: Request, res: Response) => {
 export const getUserInfo = async (req: Request, res: Response) => {
   // const accessToken = req.headers.authorization?.slice(7);
   const accessToken = req.headers.authorization?.split(" ")[1];
-  console.log("BE = " + accessToken);
+  const userInfo = await userService.getUserInfo(accessToken as string);
+  const id = userInfo.id;
+  console.log("Zalo ID: " + id);
 
-  const user = await userService.getUserInfo(accessToken as string, res);
-  res.json(user);
+  if (id) {
+    const user = await userService.checkUserExist(id);
+    if (user) {
+      res.status(200).json(user);
+      console.log(user);
+    } else {
+      res.status(204).send();
+    }
+  }
 };
 
 export const getPhoneNumber = async (req: Request, res: Response) => {

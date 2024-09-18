@@ -40,7 +40,7 @@ export const deleteUser = (id: string) => {
 };
 
 // https://developers.zalo.me/docs/social-api/tai-lieu/thong-tin-ten-anh-dai-dien
-export const getUserInfo = async (accessToken: string, res: Response) => {
+export const getUserInfo = async (accessToken: string) => {
   const zaloInfoURL = "https://graph.zalo.me/v2.0/me?fields=id,name,picture";
   try {
     const response = await axios.get(zaloInfoURL, {
@@ -48,25 +48,18 @@ export const getUserInfo = async (accessToken: string, res: Response) => {
         access_token: accessToken,
       },
     });
-    console.log("Token is:" + accessToken);
+    console.log("Access Token is:" + accessToken);
 
-    // const data = response.data;
-    // console.log(data);
+    const data = response.data;
+    console.log(data);
 
-    // const { id } = data;
-    // const user = await checkUserExist(id);
-    // if (user) {
-    //   res.status(200).json(user);
-    //   console.log(user);
-    // } else {
-    //   res.status(204).send();
-    // }
+    return data;
   } catch (error) {
-    console.log("loi user info" + error);
+    console.log(error);
   }
 };
 
-const checkUserExist = async (zaloId: string) => {
+export const checkUserExist = async (zaloId: string) => {
   const user = await prisma.user.findUnique({
     where: { zaloId },
   });
