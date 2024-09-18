@@ -65,7 +65,7 @@ export const getUserInfo = async (accessToken: string) => {
     console.log("Access Token is:" + accessToken);
 
     const data = response.data;
-    console.log("Data = " + data);
+    console.log("Data = " + data.toString());
 
     return data;
   } catch (error) {
