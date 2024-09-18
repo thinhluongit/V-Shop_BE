@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import * as userService from "../services/userService";
+import { log } from "console";
 
 export const createUser = async (req: Request, res: Response) => {
   const { zaloId, email, name, phoneNumber, image } = req.body; // based on the zalo response
@@ -34,6 +35,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 export const getUserInfo = async (req: Request, res: Response) => {
   // const accessToken = req.headers.authorization?.slice(7);
   const accessToken = req.headers.authorization?.split(" ")[1];
+
   const userInfo = await userService.getUserInfo(accessToken as string);
   const id = userInfo.id;
   console.log("Zalo ID: " + id);
@@ -46,6 +48,8 @@ export const getUserInfo = async (req: Request, res: Response) => {
     } else {
       res.status(204).send();
     }
+  } else {
+    res.json({});
   }
 };
 

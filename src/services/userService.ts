@@ -52,6 +52,7 @@ export const getUserInfo = async (accessToken: string) => {
     const hmac = CryptoJS.HmacSHA256(access_token, secretKey);
     return hmac.toString(CryptoJS.enc.Hex);
   };
+  console.log(calculateHMacSHA256(accessToken, ZALO_APP_SECRET_KEY as string));
 
   try {
     const response = await axios.get(zaloInfoURL, {
