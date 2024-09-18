@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import * as userService from "../services/userService";
-import { log } from "console";
 
 export const createUser = async (req: Request, res: Response) => {
   const { zaloId, email, name, phoneNumber, image } = req.body; // based on the zalo response
@@ -42,12 +41,11 @@ export const getUserInfo = async (req: Request, res: Response) => {
     const user = await userService.checkUserExist(id);
     if (user) {
       res.status(200).json(user);
-      console.log("da send status 200");
-
+      console.log("This user have been existed");
       console.log(user);
     } else {
+      console.log("This user does not exist yet");
       res.status(204).send();
-      console.log("da send status 204");
     }
   } else {
     res.json({});
@@ -56,12 +54,17 @@ export const getUserInfo = async (req: Request, res: Response) => {
 
 export const getPhoneNumber = async (req: Request, res: Response) => {
   const accessToken = req.headers.authorization?.split(" ")[1];
-  const token = req.body.token;
-  console.log("Da get ben controller");
+  const token = req.headers.token;
+
+  if (!token) {
+    return res
+      .status(400)
+      .json({ message: "Bad request: Missing token in the body" });
+  }
 
   const userPhoneNumber = await userService.getPhoneNumber(
-    accessToken as string,
-    token as string,
+    accessToken as any,
+    token as any,
     res
   );
   res.json(userPhoneNumber);
