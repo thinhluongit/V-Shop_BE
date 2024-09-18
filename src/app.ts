@@ -25,8 +25,6 @@ const sslOptions = {
   cert: fs.readFileSync(path.join(__dirname, "cert.pem")),
 };
 
-console.log(__dirname);
-
 // app.listen(port, () => {
 //   console.log(`Server is running on port ${port}`);
 // });

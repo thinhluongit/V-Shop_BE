@@ -33,20 +33,21 @@ export const deleteUser = async (req: Request, res: Response) => {
 };
 
 export const getUserInfo = async (req: Request, res: Response) => {
-  // const accessToken = req.headers.authorization?.slice(7);
   const accessToken = req.headers.authorization?.split(" ")[1];
 
   const userInfo = await userService.getUserInfo(accessToken as string);
   const id = userInfo.id;
-  console.log("Zalo ID: " + id);
 
   if (id) {
     const user = await userService.checkUserExist(id);
     if (user) {
       res.status(200).json(user);
+      console.log("da send status 200");
+
       console.log(user);
     } else {
       res.status(204).send();
+      console.log("da send status 204");
     }
   } else {
     res.json({});
@@ -54,9 +55,10 @@ export const getUserInfo = async (req: Request, res: Response) => {
 };
 
 export const getPhoneNumber = async (req: Request, res: Response) => {
-  // const accessToken = req.headers.authorization?.slice(7);
   const accessToken = req.headers.authorization?.split(" ")[1];
   const token = req.body.token;
+  console.log("Da get ben controller");
+
   const userPhoneNumber = await userService.getPhoneNumber(
     accessToken as string,
     token as string,

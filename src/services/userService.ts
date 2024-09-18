@@ -52,7 +52,6 @@ export const getUserInfo = async (accessToken: string) => {
     const hmac = CryptoJS.HmacSHA256(access_token, secretKey);
     return hmac.toString(CryptoJS.enc.Hex);
   };
-  console.log(calculateHMacSHA256(accessToken, ZALO_APP_SECRET_KEY as string));
 
   try {
     const response = await axios.get(zaloInfoURL, {
@@ -64,11 +63,10 @@ export const getUserInfo = async (accessToken: string) => {
         ),
       },
     });
-    console.log("Access Token is:" + accessToken);
 
     const data = response.data;
-    console.log("Data = " + JSON.stringify(data));
-
+    // console.log("Data = " + JSON.stringify(data));
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -98,42 +96,46 @@ export const getPhoneNumber = async (
         secret_key: ZALO_APP_SECRET_KEY,
       },
     });
+    console.log("da gui data len API zalo");
 
     const data = response.data;
-    console.log(data);
+    console.log("Data PhoneNumber: " + data);
 
-    //   if (response.status === 200 && data) {
-    //     const { id, name, birthday, phone } = data;
+    // if (response.status === 200 && data) {
+    //   const { id, name, phone } = data;
 
-    //     // Assuming phone number is included in the response
-    //     console.log("User Info:", { id, name, birthday, phone });
+    //   // Assuming phone number is included in the response
+    //   console.log("User Info:", { id, name, phone });
 
-    //     if (phone) {
-    //       // Save or update user phone number using Prisma
-    //       const user = await prisma.user.upsert({
-    //         where: { zaloId: id }, // Find user by their Zalo ID
-    //         update: { name, birthday, phone }, // Update user's info
-    //         create: {
-    //           zaloId: id, // Create new user with their Zalo ID
-    //           name,
-    //           birthday,
-    //           phone,
-    //         },
-    //       });
+    //   if (phone) {
+    //     // Save or update user phone number using Prisma
+    //     const user = await prisma.user.upsert({
+    //       where: { zaloId: id }, // Find user by their Zalo ID
+    //       update: { name, phone }, // Update user's info
+    //       create: {
+    //         zaloId: id, // Create new user with their Zalo ID
+    //         name,
+    //         phone,
+    //       },
+    //     });
 
-    //       console.log("User saved/updated in DB:", user);
+    //     console.log("User saved/updated in DB:", user);
 
-    //       // Respond with success
-    //       return res.status(200).json({ message: "User phone number saved", user });
-    //     } else {
-    //       // If phone number is not in the response, handle it appropriately
-    //       return res.status(404).json({ message: "Phone number not found" });
-    //     }
+    //     // Respond with success
+    //     return res
+    //       .status(200)
+    //       .json({ message: "User phone number saved", user });
     //   } else {
-    //     // Handle error or unexpected response
-    //     console.error("Unexpected response:", response.data);
-    //     return res.status(500).json({ message: "Failed to retrieve user info from Zalo" });
+    //     // If phone number is not in the response, handle it appropriately
+    //     return res.status(404).json({ message: "Phone number not found" });
     //   }
+    // } else {
+    //   // Handle error or unexpected response
+    //   console.error("Unexpected response:", response.data);
+    //   return res
+    //     .status(500)
+    //     .json({ message: "Failed to retrieve user info from Zalo" });
+    // }
     // }
   } catch (error) {
     console.log(error);
