@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as userService from "@/services/userService";
+import * as userService from "../services/userService";
 
 export const createUser = async (req: Request, res: Response) => {
   const { zaloId, email, name, phoneNumber, image } = req.body; // based on the zalo response
